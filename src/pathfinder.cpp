@@ -69,13 +69,27 @@ int main()
   {
     BeginDrawing();
 
+    // Draw Text onto the screen
+
+    int text_x = 15;
+    int text_y = 15;
+    int font_size = 30;
+
+    DrawText(TextFormat("Score: %i", score), text_x, text_y, font_size, BLACK);
+    text_x += MeasureText(TextFormat("Score: %i", score), font_size) + font_size;
+
+    DrawText(TextFormat("Tokens: %i", tokens), text_x, text_y, font_size, BLACK);
+    text_x += MeasureText(TextFormat("Tokens: %i", tokens), font_size) + font_size;
+
+    DrawText(TextFormat("High Score: %i", high_score), text_x, text_y, font_size, GOLD);
+
     // Highlight Start Node
     const coord_t &coord_startn = node_info[start];
-    DrawCircleV(coord_startn, node_radius + 10, GREEN);
+    DrawCircleV(coord_startn, node_radius + 5, GREEN);
 
     // Highlight End Node
     const coord_t &coord_endn = node_info[end];
-    DrawCircleV(coord_endn, node_radius + 10, RED);
+    DrawCircleV(coord_endn, node_radius + 5, RED);
 
     ClearBackground(LIGHTGRAY);
 
