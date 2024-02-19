@@ -69,11 +69,11 @@ int main()
   {
     BeginDrawing();
 
-    // Draw Start Node
+    // Highlight Start Node
     const coord_t &coord_startn = node_info[start];
     DrawCircleV(coord_startn, node_radius + 10, GREEN);
 
-    // Draw End Node
+    // Highlight End Node
     const coord_t &coord_endn = node_info[end];
     DrawCircleV(coord_endn, node_radius + 10, RED);
 
