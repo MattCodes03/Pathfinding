@@ -33,3 +33,6 @@
 
 # VS Code Settings file
 .vscode/**/*
+
+# Build Files
+*build/*
