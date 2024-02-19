@@ -69,6 +69,14 @@ int main()
   {
     BeginDrawing();
 
+    // Draw Start Node
+    const coord_t &coord_startn = node_info[start];
+    DrawCircleV(coord_startn, node_radius + 10, GREEN);
+
+    // Draw End Node
+    const coord_t &coord_endn = node_info[end];
+    DrawCircleV(coord_endn, node_radius + 10, RED);
+
     ClearBackground(LIGHTGRAY);
 
     draw_graph(g);
@@ -78,9 +86,6 @@ int main()
       if (auto opt = get_nearby_node(GetMousePosition()))
       {
         // *opt is a node_t
-        const coord_t &coord = node_info[*opt];
-        std::cout << coord;
-        DrawCircleV(coord, node_radius, GREEN);
       }
     }
 
