@@ -32,6 +32,17 @@ unsigned int path_cost(const std::vector<node_t> &path)
   return static_cast<unsigned int>(dcost);
 }
 
+void HighlightPlayerPath(std::vector<std::pair<node_t, node_t>> &player_path_edges)
+{
+  for (std::pair<node_t, node_t> edges : player_path_edges)
+  {
+    const coord_t &coord_n1 = node_info[edges.first];
+    const coord_t &coord_n2 = node_info[edges.second];
+
+    DrawLineEx(coord_n1, coord_n2, line_thickness, GOLD);
+  }
+};
+
 int main()
 {
   const int w{1920}, h{1080}, half_w{w / 2}, half_h{h / 2}, gap{w / 8};
@@ -61,6 +72,10 @@ int main()
 
   int t{60}; // time
   std::vector<node_t> player_path{};
+
+  // Variable player_path_edges, this is done so we can then highlight the player path
+  std::vector<std::pair<node_t, node_t>> player_path_edges{};
+
   node_t start = 'A';
   node_t end = 'G';
   int tokens{2000}, score{}, high_score{}; // try with more/less tokens?
@@ -70,7 +85,6 @@ int main()
     BeginDrawing();
 
     // Draw Text onto the screen
-
     int text_x = 15;
     int text_y = 15;
     int font_size = 30;
@@ -95,11 +109,41 @@ int main()
 
     draw_graph(g);
 
+    // Highlight Player Path
+    HighlightPlayerPath(player_path_edges);
+
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
       if (auto opt = get_nearby_node(GetMousePosition()))
       {
-        // *opt is a node_t
+        // Perform a check to see if first node is infact the start node
+        std::cout << node_info[*opt] << std::endl;
+
+        if (player_path.empty())
+        {
+          if (*opt == start)
+          {
+            player_path.push_back(*opt);
+          }
+        }
+        else
+        {
+          /*
+          Check the neighbours of the last added node, and ensure the new node is one of those,
+          this way preventing the player from building a path of unconnected nodes
+          */
+          std::vector<node_t> neighbours = g.neighbors(player_path.back());
+          int check = std::count(neighbours.begin(), neighbours.end(), *opt);
+          if (check > 0)
+          {
+            if (tokens >= edge_info[{player_path.back(), *opt}])
+            {
+              player_path_edges.push_back({player_path.back(), *opt});
+              tokens -= edge_info[{player_path.back(), *opt}];
+              player_path.push_back(*opt);
+            }
+          }
+        }
       }
     }
 
