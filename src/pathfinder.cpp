@@ -39,7 +39,7 @@ void HighlightPlayerPath(std::vector<std::pair<node_t, node_t>> &player_path_edg
     const coord_t &coord_n1 = node_info[edges.first];
     const coord_t &coord_n2 = node_info[edges.second];
 
-    DrawLineEx(coord_n1, coord_n2, line_thickness, GOLD);
+    DrawLineEx(coord_n1, coord_n2, line_thickness + 10, GOLD);
   }
 };
 
@@ -105,12 +105,12 @@ int main()
     const coord_t &coord_endn = node_info[end];
     DrawCircleV(coord_endn, node_radius + 5, RED);
 
+    // Highlight Player Path
+    HighlightPlayerPath(player_path_edges);
+
     ClearBackground(LIGHTGRAY);
 
     draw_graph(g);
-
-    // Highlight Player Path
-    HighlightPlayerPath(player_path_edges);
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
