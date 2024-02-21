@@ -57,7 +57,9 @@ inline double heuristic(node_t next, node_t goal)
 {
   const coord_t& npos = node_info[next];
   const coord_t& gpos = node_info[goal];
-  return std::abs(npos.x - gpos.x) + std::abs(npos.y - gpos.y);
+  const double x = std::abs(npos.x - gpos.x);
+  const double y = std::abs(npos.y - gpos.y);
+  return std::sqrt(x * x + y * y);
 }
 
 #endif // _GRAPH_HPP_
